@@ -39,14 +39,15 @@ public class Database {
     // this line loads the driver manager class, and must be
     // present for everything else to work properly
     Class.forName("org.sqlite.JDBC");
-    String urlToDB = "jdbc:sqlite:" + "Users/Chloe/Desktop/CS32/lab-databases-sdpy695uw325fyuv/data/data.sqlite3";
+    String urlToDB = "jdbc:sqlite:" + "data/data.sqlite3";
     Connection conn = DriverManager.getConnection(urlToDB);
     // these two lines tell the database to enforce foreign keys during operations, and should be present
     Statement stat = conn.createStatement();
     stat.executeUpdate("PRAGMA foreign_keys=ON;");
 
+
     PreparedStatement prep;
-    prep = conn.prepareStatement("CREATE TABLE corpus("
+    prep = conn.prepareStatement("CREATE TABLE IF NOT EXISTS corpus("
         + "id INTEGER,"
         + "filename TEXT,"
         + "PRIMARY KEY (id),"
@@ -55,7 +56,7 @@ public class Database {
     prep.executeUpdate();
 
     PreparedStatement prep2;
-    prep2 = conn.prepareStatement("CREATE TABLE word("
+    prep2 = conn.prepareStatement("CREATE TABLE IF NOT EXISTS word("
         + "corpus_id TEXT,"
         + "word TEXT,"
         + "PRIMARY KEY (corpus_id),"
